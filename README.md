@@ -1,0 +1,1 @@
+7. Sistema de Gestión de Biblioteca: Crea una base de datos para gestionar libros y miembros, incluyendo préstamos. Tablas: `Libros` (libro_id, titulo, autor, genero, anio_publicacion), `Miembros` (miembro_id, nombre, apellido, email, fecha_suscripcion).
