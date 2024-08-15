@@ -1,38 +1,38 @@
 <?php
 require_once('../config/database.php');
 
-class Miembros
+class Libros
 {
     public function todos()
     {
         $con = new ClaseConectar();
         $con = $con->ProcedimientoParaConectar();
-        $cadena = "SELECT * FROM miembros";
+        $cadena = "SELECT * FROM libros";
         $datos = mysqli_query($con, $cadena);
         $con->close();
         return $datos;
     }
 
-    public function uno($miembro_id)
+    public function uno($libro_id)
     {
         $con = new ClaseConectar();
         $con = $con->ProcedimientoParaConectar();
-        $cadena = "SELECT * FROM miembros WHERE miembro_id=$miembro_id";
+        $cadena = "SELECT * FROM libros WHERE libro_id=$libro_id";
         $datos = mysqli_query($con, $cadena);
         $con->close();
         return $datos;
     }
 
-    public function insertar($nombre, $apellido, $email, $fecha_suscripcion)
+    public function insertar($titulo, $autor, $genero, $anio_publicacion)
     {
         $con = null;
         try {
             $con = new ClaseConectar();
             $con = $con->ProcedimientoParaConectar();
-
-            $stmt = $con->prepare("INSERT INTO miembros (nombre, apellido, email, fecha_suscripcion) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $nombre, $apellido, $email, $fecha_suscripcion);
-
+            
+            $stmt = $con->prepare("INSERT INTO libros (titulo, autor, genero, anio_publicacion) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("sssi", $titulo, $autor, $genero, $anio_publicacion);
+            
             if ($stmt->execute()) {
                 $insert_id = $stmt->insert_id;
                 return $insert_id;
@@ -51,14 +51,14 @@ class Miembros
         }
     }
 
-    public function actualizar($miembro_id, $nombre, $apellido, $email, $fecha_suscripcion)
+    public function actualizar($libro_id, $titulo, $autor, $genero, $anio_publicacion)
     {
         try {
             $con = new ClaseConectar();
             $con = $con->ProcedimientoParaConectar();
-            $cadena = "UPDATE miembros SET nombre='$nombre', apellido='$apellido', email='$email', fecha_suscripcion='$fecha_suscripcion' WHERE miembro_id = $miembro_id";
+            $cadena = "UPDATE libros SET titulo='$titulo', autor='$autor', genero='$genero', anio_publicacion=$anio_publicacion WHERE libro_id = $libro_id";
             if (mysqli_query($con, $cadena)) {
-                return $miembro_id;
+                return $libro_id;
             } else {
                 return $con->error;
             }
@@ -69,12 +69,12 @@ class Miembros
         }
     }
 
-    public function eliminar($miembro_id)
+    public function eliminar($libro_id)
     {
         try {
             $con = new ClaseConectar();
             $con = $con->ProcedimientoParaConectar();
-            $cadena = "DELETE FROM miembros WHERE miembro_id = $miembro_id";
+            $cadena = "DELETE FROM libros WHERE libro_id= $libro_id";
             if (mysqli_query($con, $cadena)) {
                 return 1;
             } else {
@@ -87,3 +87,4 @@ class Miembros
         }
     }
 }
+?>

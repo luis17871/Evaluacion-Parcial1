@@ -1,22 +1,23 @@
 <?php
-class Database {
+class ClaseConectar
+{
+    public $conexion;
+    protected $db;
     private $host = "localhost";
-    private $db_name = "gestion_biblioteca";
-    private $username = "root";
-    private $password = "Alpha1987";
-    public $conn;
+    private $usuario = "root";
+    private $pass = "Alpha1987";
+    private $base = "gestion_biblioteca";
 
-    public function getConnection() {
-        $this->conn = null;
-
-        try {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            $this->conn->exec("set names utf8");
-        } catch(PDOException $exception) {
-            echo "Connection error: " . $exception->getMessage();
+    public function ProcedimientoParaConectar()
+    {
+        $this->conexion = mysqli_connect($this->host, $this->usuario, $this->pass, $this->base);
+        mysqli_query($this->conexion, "SET NAMES 'utf8'");
+        if ($this->conexion->connect_error) {
+            die("Error al conectar con el servidor: " . $this->conexion->connect_error);
         }
+        $this->db = $this->conexion;
+        if ($this->db == false) die("Error al conectar con la base de datos: " . $this->conexion->connect_error);
 
-        return $this->conn;
+        return $this->conexion;
     }
 }
-?>
